@@ -1,45 +1,40 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import Input from "./Inputs";
 import { createUser, createUserDocFromAuth } from "../Utils/Firebase";
 
 const Signup = () => {
     const [contact, setContact] = useState({
-        name:'',
-        email:'',
-        password:'',
-        confirmpassword:''
+        name: '',
+        email: '',
+        password: '',
+        confirmpassword: ''
     });
 
-    const {name,email,password,confirmpassword} = contact;
-
-    const handleChange = (event)=>{
-        const {name,value} = event.target
-        setContact((preValue)=>{
-        return{
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setContact((preValue) => ({
             ...preValue,
-            [name]:value
-        }
-        })
-    }
+            [name]: value
+        }));
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
-        if (password !== confirmpassword) {
+
+        if (contact.password !== contact.confirmpassword) {
             alert('Passwords do not match');
             return;
         }
-    
+
         try {
-            const { user } = await createUser(email, password);
-            await createUserDocFromAuth(user);
+            const { user } = await createUser(contact.email, contact.password);
+            await createUserDocFromAuth(user, { name: contact.name });
             alert('Account created successfully');
             window.location.href = '/Login';
         } catch (e) {
-            alert('Error occurred while creating the user:' + e.message);
+            alert('Error occurred while creating the user: ' + e.message);
         }
     };
-
 
     return (
         <div className="container d-flex justify-content-center align-items-center vh-100">
@@ -52,37 +47,37 @@ const Signup = () => {
                     name="name"
                     value={contact.name}
                     onChange={handleChange}
-                     />
-
+                />
                 <Input
                     for="email"
                     label="Email"
-                    type="email" 
+                    type="email"
                     name="email"
                     value={contact.email}
-                    onChange={handleChange}/>
-
+                    onChange={handleChange}
+                />
                 <Input
                     for="password"
                     label="Password"
                     type="password"
                     value={contact.password}
                     name="password"
-                    onChange={handleChange} />
-
+                    onChange={handleChange}
+                />
                 <Input
                     for="ConfirmPass"
                     label="Confirm Password"
-                    type="password" 
+                    type="password"
                     name="confirmpassword"
                     value={contact.confirmpassword}
-                    onChange={handleChange}/>
+                    onChange={handleChange}
+                />
                 <div className="d-flex justify-content-center">
-                <button className="mt-3 btn btn-primary row w-75" onClick={handleSubmit}>Signup</button>
+                    <button className="mt-3 btn btn-primary row w-75" onClick={handleSubmit}>Signup</button>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Signup;

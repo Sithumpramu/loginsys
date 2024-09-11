@@ -1,6 +1,6 @@
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
-import {Routes, Route, Link, Navigate } from 'react-router-dom';
+import {Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from "./Components/Navbar";
 
 function App() {

@@ -6,26 +6,23 @@ import { loginUser } from "../Utils/Firebase";
 const Login = () => {
 
     const [contact, setContact] = useState({
-        email :'',
-        password : ''
-    })
+        email: '',
+        password: ''
+    });
 
-    const {email,password} = contact
-
-    const handleChange = (event)=>{
-        const {name,value} = event.target
-        setContact((preValue)=>{
-        return{
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setContact((preValue) => ({
             ...preValue,
-            [name]:value
-        }
-        })
-    }
+            [name]: value
+        }));
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const { user } = await loginUser(email, password);
+            await loginUser(contact.email, contact.password);
             alert('Login successful');
             window.location.href = '/Home';
         } catch (e) {
@@ -38,31 +35,31 @@ const Login = () => {
         <div className="container d-flex justify-content-center align-items-center vh-100">
             <div className="border border-4 border-primary p-5">
                 <div className="d-flex justify-content-between">
-            <h2 className="mb-5 text-primary">Login</h2>
-            <Link to={"/Signup"} className="btn btn-outline-info h-50 mt-1">Signup</Link>
-            </div>
-            <Input
-                for="email"
-                label="Email"
-                type="email"
-                value= {contact.email}
-                name = "email"
-                onChange = {handleChange} />
-
-            <Input
-                for="password"
-                label="Password"
-                type="password"
-                name = "password"
-                value= {contact.password}
-                onChange = {handleChange} />
-
-            <div className="d-flex justify-content-center">
-                <button className="mt-3 btn btn-primary row w-75" onClick={handleSubmit} >Login</button>
-            </div>
+                    <h2 className="mb-5 text-primary">Login</h2>
+                    <Link to={"/Signup"} className="btn btn-outline-info h-50 mt-1">Signup</Link>
+                </div>
+                <Input
+                    for="email"
+                    label="Email"
+                    type="email"
+                    value={contact.email}
+                    name="email"
+                    onChange={handleChange}
+                />
+                <Input
+                    for="password"
+                    label="Password"
+                    type="password"
+                    value={contact.password}
+                    name="password"
+                    onChange={handleChange}
+                />
+                <div className="d-flex justify-content-center">
+                    <button className="mt-3 btn btn-primary row w-75" onClick={handleSubmit}>Login</button>
+                </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;
