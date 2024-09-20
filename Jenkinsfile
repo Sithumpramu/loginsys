@@ -100,18 +100,21 @@ pipeline {
 
         stage('Build') {
             steps {
+                echo 'building to production...'
                 // sh 'npm run build'
             }
         }
 
         stage('Test') {
             steps {
+                echo 'test...'
                 // sh 'npm test -- --watchAll=false'
             }
         }
 
         stage('Code Quality') {
             steps {
+                echo 'code quality...'
                 // Example of SonarQube integration
                 // withSonarQubeEnv('SonarQube') {
                 //     sh 'npm run sonar'
