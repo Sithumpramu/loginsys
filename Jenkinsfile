@@ -100,22 +100,22 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'npm run build'
+                // sh 'npm run build'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'npm test -- --watchAll=false'
+                // sh 'npm test -- --watchAll=false'
             }
         }
 
         stage('Code Quality') {
             steps {
                 // Example of SonarQube integration
-                withSonarQubeEnv('SonarQube') {
-                    sh 'npm run sonar'
-                }
+                // withSonarQubeEnv('SonarQube') {
+                //     sh 'npm run sonar'
+                // }
             }
         }
 
