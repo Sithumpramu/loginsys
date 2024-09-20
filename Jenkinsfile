@@ -100,31 +100,28 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'building to production...'
-                // sh 'npm run build'
+                echo 'Building the project...'
+                sh 'npm install'  // Installs dependencies
+                sh 'npm run build'  // Builds the production-ready files
             }
         }
+
 
         stage('Test') {
             steps {
                 echo 'test...'
-                // sh 'npm test -- --watchAll=false'
             }
         }
 
         stage('Code Quality') {
             steps {
                 echo 'code quality...'
-                // Example of SonarQube integration
-                // withSonarQubeEnv('SonarQube') {
-                //     sh 'npm run sonar'
-                // }
+
             }
         }
 
         stage('Deploy') {
             steps {
-                // Deploy steps go here (e.g., S3, Docker, etc.)
                 echo 'Deploying to production...'
             }
         }
