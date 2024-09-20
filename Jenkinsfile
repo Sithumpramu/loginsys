@@ -104,8 +104,8 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the project...'
-                sh 'npm install'  // Installs dependencies
-                sh 'npm run build'  // Builds the production-ready files
+                bat 'npm install'  // Installs dependencies
+                bat 'npm run build'  // Builds the production-ready files
             }
         }
 
