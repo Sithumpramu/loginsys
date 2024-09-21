@@ -114,7 +114,8 @@ pipeline {
 
         stage('Test') {
             steps {
-                echo 'test...'
+                echo 'Running unit tests...'
+                bat 'npm test'
             }
         }
 
