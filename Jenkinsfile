@@ -105,9 +105,7 @@ pipeline {
             steps {
                 echo 'Building the Docker image...'
                 bat 'docker build -t your-repo/your-image-name:latest .'  // Build the Docker image
-                // echo 'Building the project...'
-                // bat 'npm install'  // Installs dependencies
-                // bat 'npm run build'  // Builds the production-ready files
+
             }
         }
 
@@ -122,8 +120,10 @@ pipeline {
         stage('Code Quality') {
             steps {
                 echo 'code quality...'
+                withSonarQubeEnv('SonarQube') {
+                sh 'sonar-scanner'
 
-            }
+                 } }
         }
 
         stage('Deploy') {
