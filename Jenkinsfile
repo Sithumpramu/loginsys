@@ -97,7 +97,7 @@ pipeline {
     agent any
     tools {
          nodejs 'node'
-         sonarScanner 'SonarScanner'
+         sonar 'SonarQube'
     }
 
     stages {
@@ -121,8 +121,10 @@ pipeline {
         stage('Code Quality') {
             steps {
                 echo 'code quality...'
-                withSonarQubeEnv('SonarQube') {
-                bat 'sonar-scanner'
+            steps {
+                withSonarQubeEnv('SonarQube') {  // This should match your SonarQube server name in Jenkins configuration
+                    bat "${tool('SonarQube')}/bin/sonar-scanner"  // Use the tool name you specified
+                }
 
                  }
                   }
