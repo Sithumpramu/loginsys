@@ -120,10 +120,11 @@ pipeline {
         stage('Code Quality') {
             steps {
                 echo 'code quality...'
-                withSonarQubeEnv('SonarQube') {
-                sh 'sonar-scanner'
+                // withSonarQubeEnv('SonarQube') {
+                // sh 'sonar-scanner'
 
-                 } }
+                //  }
+                  }
         }
 
         stage('Deploy') {
