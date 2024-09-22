@@ -97,7 +97,7 @@ pipeline {
     agent any
     tools {
          nodejs 'node'
-        //  sonarScanner 'SonarScanner'
+         sonarScanner 'SonarScanner'
     }
 
     stages {
