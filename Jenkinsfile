@@ -104,7 +104,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the Docker image...'
-                bat 'docker build -t your-repo/your-image-name:latest .'  // Build the Docker image
+                bat 'docker build -t your-repo/your-image-name:latest .'  
 
             }
         }
@@ -120,10 +120,10 @@ pipeline {
         stage('Code Quality') {
             steps {
                 echo 'code quality...'
-                // withSonarQubeEnv('SonarQube') {
-                // sh 'sonar-scanner'
+                withSonarQubeEnv('SonarQube') {
+                bat 'sonar-scanner'
 
-                //  }
+                 }
                   }
         }
 
