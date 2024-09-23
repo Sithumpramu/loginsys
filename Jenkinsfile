@@ -97,7 +97,6 @@ pipeline {
     agent any
     tools {
          nodejs 'node'
-         sonar 'SonarQube'
     }
 
     stages {
