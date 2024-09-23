@@ -121,8 +121,8 @@ pipeline {
             steps {
                 echo 'code quality...'
             steps {
-                withSonarQubeEnv('SonarQube') {  // This should match your SonarQube server name in Jenkins configuration
-                    bat "${tool('SonarQube')}/bin/sonar-scanner"  // Use the tool name you specified
+                withSonarQubeEnv('SonarQube') {  // Ensure this matches your SonarQube configuration in Jenkins
+                    sh 'sonar-scanner -Dsonar.projectKey=a4728236 -Dsonar.organization=sithumpramu -Dsonar.login=2a3fd26271a2ad2d734d17fba879264fc42eec4d'
                 }
 
                  }
