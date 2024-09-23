@@ -193,24 +193,24 @@ stage('SonarQube Analysis') {
             def scannerHome = tool 'SonarQube'
             withSonarQubeEnv('SonarQube') {
                 bat """
-                    echo "Running SonarQube Scanner from: ${scannerHome}"
-                    echo "Current directory: \$(pwd)"
-                    ${scannerHome}/bin/sonar-scanner \
-                        -Dsonar.projectKey=Sithumpramu_loginsys \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=https://sonarcloud.io \
-                        -Dsonar.projectBaseDir=. \
+                    echo Running SonarQube Scanner from: %scannerHome%
+                    echo Current directory: %CD%
+                    %scannerHome%\\bin\\sonar-scanner.bat ^
+                        -Dsonar.projectKey=Sithumpramu_loginsys ^
+                        -Dsonar.sources=. ^
+                        -Dsonar.host.url=https://sonarcloud.io ^
+                        -Dsonar.projectBaseDir=. ^
                         -Dsonar.working.directory=.scannerwork
-                    
-                    echo "SonarQube Scanner completed"
-                    
-                    if [ -f ".scannerwork/report-task.txt" ]; then
-                        echo "Report task file found"
-                        cat .scannerwork/report-task.txt
-                    else
-                        echo "Report task file not found"
+
+                    echo SonarQube Scanner completed
+
+                    if exist ".scannerwork\\report-task.txt" (
+                        echo Report task file found
+                        type .scannerwork\\report-task.txt
+                    ) else (
+                        echo Report task file not found
                         exit 1
-                    fi
+                    )
                 """
             }
         }
