@@ -192,7 +192,7 @@ stage('SonarQube Analysis') {
         script {
             def scannerHome = tool 'SonarQube'
             withSonarQubeEnv('SonarQube') {
-                sh """
+                bat """
                     echo "Running SonarQube Scanner from: ${scannerHome}"
                     echo "Current directory: \$(pwd)"
                     ${scannerHome}/bin/sonar-scanner \
