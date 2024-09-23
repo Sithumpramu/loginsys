@@ -161,21 +161,21 @@ pipeline {
         stage('Code Quality') {
             steps {
                 echo 'Running code quality analysis...'
-                // withSonarQubeEnv('SonarQube') {  // Ensure this matches your SonarQube configuration in Jenkins
-                //     bat 'sonar-scanner -Dsonar.verbose=true -Dsonar.projectKey=Sithumpramu_loginsys -Dsonar.organization=sithumpramu -Dsonar.login=2a3fd26271a2ad2d734d17fba879264fc42eec4d'
-                //     sh 'printenv | grep SONAR'
+                withSonarQubeEnv('SonarQube') {  // Ensure this matches your SonarQube configuration in Jenkins
+                    bat 'sonar-scanner -Dsonar.verbose=true -Dsonar.projectKey=Sithumpramu_loginsys -Dsonar.organization=sithumpramu -Dsonar.login=2a3fd26271a2ad2d734d17fba879264fc42eec4d'
+                    sh 'printenv | grep SONAR'
 
-                // }
-                                withSonarQubeEnv('SonarQube') {  // Ensure this matches your SonarQube server config in Jenkins
-                    bat '''
-                    sonar-scanner ^
-                      -Dsonar.projectKey=Sithumpramu_loginsys ^
-                      -Dsonar.organization=sithumpramu ^
-                      -Dsonar.sources=src ^
-                      -Dsonar.host.url=https://sonarcloud.io ^
-                      -Dsonar.login=2a3fd26271a2ad2d734d17fba879264fc42eec4d
-                    '''
                 }
+                //     withSonarQubeEnv('SonarQube') {  // Ensure this matches your SonarQube server config in Jenkins
+                //     bat '''
+                //     sonar-scanner ^
+                //       -Dsonar.projectKey=Sithumpramu_loginsys ^
+                //       -Dsonar.organization=sithumpramu ^
+                //       -Dsonar.sources=src ^
+                //       -Dsonar.host.url=https://sonarcloud.io ^
+                //       -Dsonar.login=2a3fd26271a2ad2d734d17fba879264fc42eec4d
+                //     '''
+                // }
             }
         }
 
