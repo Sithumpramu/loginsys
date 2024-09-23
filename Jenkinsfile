@@ -187,20 +187,35 @@ pipeline {
         //     }
         // }
 
-        stage('SonarQube Analysis') {
-          steps {
-              script {
-                  def scannerHome = tool 'SonarQube'
-                  withSonarQubeEnv('SonarQube') {
-                      sh "${scannerHome}/bin/sonar-scanner \
-                          -Dsonar.projectKey=Sithumpramu_loginsys \
-                          -Dsonar.sources=. \
-                          -Dsonar.host.url=https://sonarcloud.io"
-                  }
-              }
-          }
-        }      
-
+stage('SonarQube Analysis') {
+    steps {
+        script {
+            def scannerHome = tool 'SonarQube'
+            withSonarQubeEnv('SonarQube') {
+                sh """
+                    echo "Running SonarQube Scanner from: ${scannerHome}"
+                    echo "Current directory: \$(pwd)"
+                    ${scannerHome}/bin/sonar-scanner \
+                        -Dsonar.projectKey=Sithumpramu_loginsys \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=https://sonarcloud.io \
+                        -Dsonar.projectBaseDir=. \
+                        -Dsonar.working.directory=.scannerwork
+                    
+                    echo "SonarQube Scanner completed"
+                    
+                    if [ -f ".scannerwork/report-task.txt" ]; then
+                        echo "Report task file found"
+                        cat .scannerwork/report-task.txt
+                    else
+                        echo "Report task file not found"
+                        exit 1
+                    fi
+                """
+            }
+        }
+    }
+}
         stage('Deploy') {
             steps {
                 echo 'Deploying to production...'
