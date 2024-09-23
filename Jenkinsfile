@@ -162,7 +162,7 @@ pipeline {
             steps {
                 echo 'Running code quality analysis...'
                 withSonarQubeEnv('SonarQube') {  // Ensure this matches your SonarQube configuration in Jenkins
-                    sh 'sonar-scanner -Dsonar.verbose=true -Dsonar.projectKey=a4728236 -Dsonar.organization=sithumpramu -Dsonar.login=2a3fd26271a2ad2d734d17fba879264fc42eec4d'
+                    sh 'sonar-scanner -Dsonar.verbose=true -Dsonar.projectKey=Sithumpramu_loginsys -Dsonar.organization=sithumpramu -Dsonar.login=2a3fd26271a2ad2d734d17fba879264fc42eec4d'
                     sh 'printenv | grep SONAR'
 
                 }
