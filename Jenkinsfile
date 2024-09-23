@@ -170,6 +170,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying to production...'
+                // bat 'docker-compose up -d' 
             }
         }
     }
