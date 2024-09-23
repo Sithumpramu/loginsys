@@ -93,22 +93,63 @@
 //     }
 // }
 
+// pipeline {
+//     agent any
+//     tools {
+//          nodejs 'node'
+//     }
+
+//     stages {
+
+//         stage('Build') {
+//             steps {
+//                 echo 'Building the Docker image...'
+//                 bat 'docker build -t your-repo/your-image-name:latest .'  
+
+//             }
+//         }
+
+
+//         stage('Test') {
+//             steps {
+//                 echo 'Running unit tests...'
+//                 bat 'npm test'
+//             }
+//         }
+
+//         stage('Code Quality') {
+//             steps {
+//                 echo 'code quality...'
+//             steps {
+//                 withSonarQubeEnv('SonarQube') {  // Ensure this matches your SonarQube configuration in Jenkins
+//                     sh 'sonar-scanner -Dsonar.projectKey=a4728236 -Dsonar.organization=sithumpramu -Dsonar.login=2a3fd26271a2ad2d734d17fba879264fc42eec4d'
+//                 }
+
+//                  }
+//                   }
+//         }
+
+//         stage('Deploy') {
+//             steps {
+//                 echo 'Deploying to production...'
+//             }
+//         }
+//     }
+// }
+
 pipeline {
     agent any
     tools {
-         nodejs 'node'
+        nodejs 'node'
     }
 
     stages {
-
         stage('Build') {
             steps {
                 echo 'Building the Docker image...'
                 bat 'docker build -t your-repo/your-image-name:latest .'  
-
             }
         }
-
 
         stage('Test') {
             steps {
@@ -119,14 +160,11 @@ pipeline {
 
         stage('Code Quality') {
             steps {
-                echo 'code quality...'
-            steps {
+                echo 'Running code quality analysis...'
                 withSonarQubeEnv('SonarQube') {  // Ensure this matches your SonarQube configuration in Jenkins
                     sh 'sonar-scanner -Dsonar.projectKey=a4728236 -Dsonar.organization=sithumpramu -Dsonar.login=2a3fd26271a2ad2d734d17fba879264fc42eec4d'
                 }
-
-                 }
-                  }
+            }
         }
 
         stage('Deploy') {
