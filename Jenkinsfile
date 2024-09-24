@@ -195,7 +195,7 @@ stage('SonarQube Analysis') {
                 bat """
                     echo Running SonarQube Scanner from: %scannerHome%
                     echo Current directory: %CD%
-                    %scannerHome%\\bin\\sonar-scanner.bat ^
+                    $(scannerHome)\bin\sonar-scanner.bat ^
                         -Dsonar.projectKey=Sithumpramu_loginsys ^
                         -Dsonar.sources=. ^
                         -Dsonar.host.url=https://sonarcloud.io ^
