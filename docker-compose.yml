@@ -1,7 +1,7 @@
 
 services:
   app:
-    image: loginsys/your-repo/your-image-name:latest  
+    image: loginsys/Docimage:latest  
     ports:
       - "8080:8080"
     environment:
