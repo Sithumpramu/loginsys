@@ -158,14 +158,14 @@ pipeline {
             }
         }
 
-        // stage('Code Quality') {
-        //     steps {
-        //         echo 'Running code quality analysis...'
-        //         // withSonarQubeEnv('SonarQube') {  // Ensure this matches your SonarQube configuration in Jenkins
-        //         //     bat 'sonar-scanner -Dsonar.verbose=true -Dsonar.projectKey=Sithumpramu_loginsys -Dsonar.organization=sithumpramu -Dsonar.login=2a3fd26271a2ad2d734d17fba879264fc42eec4d'
-        //         //     sh 'printenv | grep SONAR'
+        stage('Code Quality') {
+            steps {
+                echo 'Running code quality analysis...'
+                withSonarQubeEnv('SonarQube') {  // Ensure this matches your SonarQube configuration in Jenkins
+                    bat 'sonar-scanner -Dsonar.verbose=true -Dsonar.projectKey=Sithumpramu_loginsys -Dsonar.organization=sithumpramu -Dsonar.login=2a3fd26271a2ad2d734d17fba879264fc42eec4d'
+                    sh 'printenv | grep SONAR'
 
-        //         // }
+                }
         //             // withSonarQubeEnv('SonarQube') {  // Ensure this matches your SonarQube server config in Jenkins
         //             // bat '''
         //             // sonar-scanner ^
@@ -187,35 +187,36 @@ pipeline {
         //     }
         // }
 
-stage('SonarQube Analysis') {
-    steps {
-        script {
-            def scannerHome = tool 'SonarQube'
-            withSonarQubeEnv('SonarQube') {
-                bat """
-                    echo Running SonarQube Scanner from: %scannerHome%
-                    echo Current directory: %CD%
-                    %scannerHome%\\bin\\sonar-scanner.bat ^
-                        -Dsonar.projectKey=Sithumpramu_loginsys ^
-                        -Dsonar.sources=. ^
-                        -Dsonar.host.url=https://sonarcloud.io ^
-                        -Dsonar.projectBaseDir=. ^
-                        -Dsonar.working.directory=.scannerwork
+// stage('SonarQube Analysis') {
+//     steps {
+//         script {
+//             def scannerHome = tool 'SonarQube'
+//             withSonarQubeEnv('SonarQube') {
+//                 bat """
+//                     echo Running SonarQube Scanner from: %scannerHome%
+//                     echo Current directory: %CD%
+//                     %scannerHome%\\bin\\sonar-scanner.bat ^
+//                         -Dsonar.projectKey=Sithumpramu_loginsys ^
+//                         -Dsonar.sources=. ^
+//                         -Dsonar.host.url=https://sonarcloud.io ^
+//                         -Dsonar.projectBaseDir=. ^
+//                         -Dsonar.working.directory=.scannerwork
 
-                    echo SonarQube Scanner completed
+//                     echo SonarQube Scanner completed
 
-                    if exist ".scannerwork\\report-task.txt" (
-                        echo Report task file found
-                        type .scannerwork\\report-task.txt
-                    ) else (
-                        echo Report task file not found
-                        exit 1
-                    )
-                """
-            }
-        }
-    }
-}
+//                     if exist ".scannerwork\\report-task.txt" (
+//                         echo Report task file found
+//                         type .scannerwork\\report-task.txt
+//                     ) else (
+//                         echo Report task file not found
+//                         exit 1
+//                     )
+//                 """
+//             }
+//         }
+//     }
+// }
+            }}
         stage('Deploy') {
             steps {
                 echo 'Deploying to production...'
