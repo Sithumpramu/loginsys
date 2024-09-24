@@ -217,7 +217,7 @@ pipeline {
 //     }
 // }
 
-        stages {
+        
           stage('SonarQube analysis') {
             steps {
               script {
@@ -228,7 +228,7 @@ pipeline {
               }
             }
           }
-        }
+        
         stage('Deploy') {
             steps {
                 echo 'Deploying to production...'
