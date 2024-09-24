@@ -1,7 +1,7 @@
 
 services:
   app:
-    image: loginsys/Docimage:latest  
+    image: kmds/Docimage:latest  
     ports:
       - "8080:8080"
     environment:
