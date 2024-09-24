@@ -218,7 +218,7 @@ pipeline {
 // }
 
         
-          stage('SonarQube analysis') {
+          stage('Codequality analysis') {
             steps {
               script {
                   scannerHome = tool 'SonarQube'
@@ -234,8 +234,19 @@ pipeline {
         
         stage('Deploy') {
             steps {
-                echo 'Deploying to production...'
-                // bat 'docker-compose up -d' 
+                script {
+                    // Ensure Docker is installed
+                    bat 'docker --version'
+                    
+                    // Optionally clean up old containers
+                    bat 'docker-compose down'
+                    
+                    // Pull the latest image (if necessary)
+                    bat 'docker-compose pull'
+                    
+                    // Deploy using Docker Compose
+                    bat 'docker-compose up -d --build'
+                }
             }
         }
     }
