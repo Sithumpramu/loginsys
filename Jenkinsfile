@@ -146,12 +146,15 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building the Docker image...'
                 echo 'Logging into Docker Hub...'
                 bat 'docker login -u kmds -p dckr_pat_LqTQehUbTG9LVrzIjSeXrVQUVh4'
-        
+                
                 echo 'Building the Docker image...'
                 bat 'docker build -t kmds/my-app:latest .'
+                
+                echo 'Pushing the Docker image to Docker Hub...'
+                bat 'docker push kmds/my-app:latest'
+
     }
         }
 
@@ -239,17 +242,20 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Ensure Docker is installed
-                    bat 'docker --version'
+                    // // Ensure Docker is installed
+                    // bat 'docker --version'
                     
-                    // Optionally clean up old containers
-                    bat 'docker-compose down'
+                    // // Optionally clean up old containers
+                    // bat 'docker-compose down'
                     
-                    // Pull the latest image (if necessary)
+                    // // Pull the latest image (if necessary)
+                    // bat 'docker-compose pull'
+                    
+                    // // Deploy using Docker Compose
+                    // bat 'docker-compose up -d --build'
+                    echo 'Deploying the Docker container...'
                     bat 'docker-compose pull'
-                    
-                    // Deploy using Docker Compose
-                    bat 'docker-compose up -d --build'
+                    bat 'docker-compose up -d'
                 }
             }
         }
