@@ -187,35 +187,48 @@ pipeline {
         //     }
         // }
 
-stage('SonarQube Analysis') {
-    steps {
-        script {
-            def scannerHome = tool 'SonarQube'
-            echo "SonarQube Scanner Home: ${scannerHome}"
-            withSonarQubeEnv('SonarQube') {
-                bat """
-                    echo Running SonarQube Scanner from: %scannerHome%
-                    echo Current directory: %CD%
-                    %scannerHome%\\bin\\sonar-scanner.bat ^
-                        -Dsonar.projectKey=Sithumpramu_loginsys ^
-                        -Dsonar.sources=. ^
-                        -Dsonar.host.url=https://sonarcloud.io ^
+// stage('SonarQube Analysis') {
+//     steps {
+//         script {
+//             def scannerHome = tool 'SonarQube'
+//             echo "SonarQube Scanner Home: ${scannerHome}"
+//             withSonarQubeEnv('SonarQube') {
+//                 bat """
+//                     echo Running SonarQube Scanner from: %scannerHome%
+//                     echo Current directory: %CD%
+//                     %scannerHome%\\bin\\sonar-scanner.bat ^
+//                         -Dsonar.projectKey=Sithumpramu_loginsys ^
+//                         -Dsonar.sources=. ^
+//                         -Dsonar.host.url=https://sonarcloud.io ^
 
 
-                    echo SonarQube Scanner completed
+//                     echo SonarQube Scanner completed
 
-                    if exist ".scannerwork\\report-task.txt" (
-                        echo Report task file found
-                        type .scannerwork\\report-task.txt
-                    ) else (
-                        echo Report task file not found
-                        exit 1
-                    )
-                """
+//                     if exist ".scannerwork\\report-task.txt" (
+//                         echo Report task file found
+//                         type .scannerwork\\report-task.txt
+//                     ) else (
+//                         echo Report task file not found
+//                         exit 1
+//                     )
+//                 """
+//             }
+//         }
+//     }
+// }
+
+        stages {
+          stage('SonarQube analysis') {
+            steps {
+              script {
+                  scannerHome = tool 'SonarQube'// must match the name of an actual scanner installation directory on your Jenkins build agent
+              }
+              withSonarQubeEnv('SonarCloud') {
+                sh "${scannerHome}/bin/sonar-scanner"
+              }
             }
+          }
         }
-    }
-}
         stage('Deploy') {
             steps {
                 echo 'Deploying to production...'
