@@ -147,7 +147,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the Docker image...'
-                bat 'docker build -t loginsys/Docimage:latest'  
+                bat 'docker build -t your-repo/your-image-name:latest .'  
             }
         }
 
