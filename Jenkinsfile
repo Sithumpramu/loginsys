@@ -221,7 +221,9 @@ pipeline {
           stage('SonarQube analysis') {
             steps {
               script {
-                  scannerHome = tool 'SonarQube'// must match the name of an actual scanner installation directory on your Jenkins build agent
+                  scannerHome = tool 'SonarQube'
+                  echo "${scannerHome}"
+
               }
               withSonarQubeEnv('SonarCloud') {
                 sh "${scannerHome}/bin/sonar-scanner"
