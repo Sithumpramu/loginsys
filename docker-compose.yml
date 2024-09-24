@@ -1,8 +1,7 @@
-version: '3'
 
 services:
   app:
-    image: your-repo/your-image-name:latest  
+    image: loginsys/your-repo/your-image-name:latest  
     ports:
       - "8080:8080"
     environment:
