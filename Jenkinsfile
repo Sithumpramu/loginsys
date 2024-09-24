@@ -147,8 +147,12 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the Docker image...'
-                bat 'docker build -t loginsys/Docimage:latest'  
-            }
+                echo 'Logging into Docker Hub...'
+                bat 'docker login -u kmds -p dckr_pat_LqTQehUbTG9LVrzIjSeXrVQUVh4'
+        
+                echo 'Building the Docker image...'
+                bat 'docker build -t kmds/my-app:latest .'
+    }
         }
 
         stage('Test') {
