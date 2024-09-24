@@ -148,7 +148,11 @@ pipeline {
             steps {
                 echo 'Building the Docker image...'
                 // bat 'docker build -t your-repo/your-image-name:latest .'  
-                 bat 'docker build -t kmds/my-app:latest .'
+                echo 'Logging into Docker Hub...'
+                bat 'docker login -u kmds -p dckr_pat_LqTQehUbTG9LVrzIjSeXrVQUVh4'
+        
+                echo 'Building the Docker image...'
+                bat 'docker build -t kmds/my-app:latest .'
             }
         }
 
