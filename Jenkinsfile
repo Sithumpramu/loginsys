@@ -226,7 +226,7 @@ pipeline {
 
               }
               withSonarQubeEnv('SonarCloud') {
-                sh "${scannerHome}/bin/sonar-scanner"
+                sh "C:/SonarQube/sonar-scanner-6.1.0.4477-windows-x64/bin/sonar-scanner"
               }
             }
           }
