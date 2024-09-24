@@ -238,14 +238,14 @@ pipeline {
                     // Ensure Docker is installed
                     bat 'docker --version'
                     
-                    // Optionally clean up old containers
-                    bat 'docker-compose down'
+                    // // Optionally clean up old containers
+                    // bat 'docker-compose down'
                     
-                    // Pull the latest image (if necessary)
-                    bat 'docker-compose pull'
+                    // // Pull the latest image (if necessary)
+                    // bat 'docker-compose pull'
                     
-                    // Deploy using Docker Compose
-                    bat 'docker-compose up -d --build'
+                    // // Deploy using Docker Compose
+                    // bat 'docker-compose up -d --build'
                 }
             }
         }
