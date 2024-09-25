@@ -206,7 +206,7 @@ pipeline {
        
 
         bat '''
-            octo create-release ^
+            "C:\Users\user\Downloads\OctopusTools.9.0.0.win-x64\\octo.exe" create-release ^
             --project "My Jenkins Deployment Project" ^
             --releaseNumber 1.0.0 ^
             --deployTo Production ^
