@@ -203,7 +203,17 @@ pipeline {
         //     --server https://loginkmds.octopus.app \\
         //     --apiKey API-PZ73ENNRIGUN60LKRAEQOIHNY7WQ
         // """
-        octo create-release --project "My Jenkins Deployment Project" --releaseNumber 1.0.0 --deployTo Production --server https://loginkmds.octopus.app --apiKey API-PZ73ENNRIGUN60LKRAEQOIHNY7WQ
+       
+
+        bat '''
+            octo create-release ^
+            --project "My Jenkins Deployment Project" ^
+            --releaseNumber 1.0.0 ^
+            --deployTo Production ^
+            --server https://loginkmds.octopus.app ^
+            --apiKey API-PZ73ENNRIGUN60LKRAEQOIHNY7WQ
+        '''
+        
     }
 }
     }
