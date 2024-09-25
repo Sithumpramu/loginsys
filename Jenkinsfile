@@ -165,64 +165,7 @@ pipeline {
             }
         }
 
-        // stage('Code Quality') {
-        //     steps {
-        //         echo 'Running code quality analysis...'
-        //         // withSonarQubeEnv('SonarQube') {  // Ensure this matches your SonarQube configuration in Jenkins
-        //         //     bat 'sonar-scanner -Dsonar.verbose=true -Dsonar.projectKey=Sithumpramu_loginsys -Dsonar.organization=sithumpramu -Dsonar.login=2a3fd26271a2ad2d734d17fba879264fc42eec4d'
-        //         //     sh 'printenv | grep SONAR'
-
-        //         // }
-        //             // withSonarQubeEnv('SonarQube') {  // Ensure this matches your SonarQube server config in Jenkins
-        //             // bat '''
-        //             // sonar-scanner ^
-        //             //   -Dsonar.projectKey=Sithumpramu_loginsys ^
-        //             //   -Dsonar.organization=sithumpramu ^
-        //             //   -Dsonar.sources=src ^
-        //             //   -Dsonar.host.url=https://sonarcloud.io ^
-        //             //   -Dsonar.login=2a3fd26271a2ad2d734d17fba879264fc42eec4d
-        //             // '''
-        //             def scannerHome = tool 'SonarQube'
-        //             withSonarQubeEnv('SonarQube') {
-        //                 sh "${scannerHome}/bin/sonar-scanner \
-        //                     -Dsonar.projectKey=Sithumpramu_loginsys \
-        //                     -Dsonar.organization=sithumpramu \
-        //                     -Dsonar.sources=. \
-        //                     -Dsonar.host.url=https://sonarcloud.io"
-                    
-        //         }
-        //     }
-        // }
-
-// stage('SonarQube Analysis') {
-//     steps {
-//         script {
-//             def scannerHome = tool 'SonarQube'
-//             echo "SonarQube Scanner Home: ${scannerHome}"
-//             withSonarQubeEnv('SonarQube') {
-//                 bat """
-//                     echo Running SonarQube Scanner from: %scannerHome%
-//                     echo Current directory: %CD%
-//                     %scannerHome%\\bin\\sonar-scanner.bat ^
-//                         -Dsonar.projectKey=Sithumpramu_loginsys ^
-//                         -Dsonar.sources=. ^
-//                         -Dsonar.host.url=https://sonarcloud.io ^
-
-
-//                     echo SonarQube Scanner completed
-
-//                     if exist ".scannerwork\\report-task.txt" (
-//                         echo Report task file found
-//                         type .scannerwork\\report-task.txt
-//                     ) else (
-//                         echo Report task file not found
-//                         exit 1
-//                     )
-//                 """
-//             }
-//         }
-//     }
-// }
+ 
 
         
           stage('Codequality analysis') {
@@ -242,22 +185,25 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // // Ensure Docker is installed
-                    // bat 'docker --version'
-                    
-                    // // Optionally clean up old containers
-                    // bat 'docker-compose down'
-                    
-                    // // Pull the latest image (if necessary)
-                    // bat 'docker-compose pull'
-                    
-                    // // Deploy using Docker Compose
-                    // bat 'docker-compose up -d --build'
                     echo 'Deploying the Docker container...'
                     bat 'docker-compose pull'
                     bat 'docker-compose up -d'
                 }
             }
         }
+
+        stage('Release') {
+    steps {
+        echo 'Releasing to Production...'
+        bat """
+        octo create-release \\
+            --project My Jenkins Deployment Project \\
+            --releaseNumber 1.0.0 \\
+            --deployTo Production \\
+            --server https://loginkmds.octopus.app \\
+            --apiKey API-PZ73ENNRIGUN60LKRAEQOIHNY7WQ
+        """
+    }
+}
     }
 }
