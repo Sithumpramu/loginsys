@@ -116,9 +116,6 @@
 
 pipeline {
     agent any
-    environment {
-        DATADOG_API_KEY = credentials('ba893a72db4c75d13106acf4c995e7a3')
-    }
     tools {
         nodejs 'node'
     }
