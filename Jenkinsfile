@@ -183,20 +183,16 @@ pipeline {
         stage('Setup Basic Datadog Monitoring') {
             steps {
                 script {
-                    // Send deployment event to Datadog
+                    echo 'Sending metrics to Datadog via DogStatsD...'
+                    
+                    // Send build success metric to Datadog using DogStatsD
                     bat '''
-                        curl -X POST "https://api.datadoghq.com/api/v1/events" ^
-                        -H "Content-Type: application/json" ^
-                        -H "DD-API-KEY: ${DATADOG_API_KEY}" ^
-                        -d "{ \\"title\\": \\"Deployment to Production\\", \\"text\\": \\"Version ${env.BUILD_NUMBER} deployed to production\\", \\"priority\\": \\"normal\\", \\"tags\\": [\\"environment:production\\", \\"version:${env.BUILD_NUMBER}\\"] }"
+                        echo "jenkins.build.success:1|c" | nc -u -w0 localhost 8125
                     '''
-
-                    // Set up a basic uptime monitor
+                    
+                    // Send a custom deployment metric
                     bat '''
-                        curl -X POST "https://api.datadoghq.com/api/v1/monitor" ^
-                        -H "Content-Type: application/json" ^
-                        -H "DD-API-KEY: ${DATADOG_API_KEY}" ^
-                        -d "{ \\"name\\": \\"Website Uptime\\", \\"type\\": \\"service check\\", \\"query\\": \\"http.can_connect\\", \\"message\\": \\"Website is down! Please check immediately.\\", \\"tags\\": [\\"app:your-app-name\\", \\"env:production\\"], \\"options\\": { \\"notify_no_data\\": true, \\"no_data_timeframe\\": 10 } }"
+                        echo "jenkins.deploy.success:1|c" | nc -u -w0 localhost 8125
                     '''
                 }
             }
