@@ -177,56 +177,55 @@ pipeline {
             }
         }
 
- stage('Configure Datadog Monitoring') {
-            steps {
-                script {
-                    // echo 'Configuring Datadog monitoring...'
-                    // // Install Datadog Agent
-                    // bat 'powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(\'https://s3.amazonaws.com/dd-agent/scripts/install_script_windows.ps1\'))"'
+//  stage('Configure Datadog Monitoring') {
+//             steps {
+//                 script {
+//                     // echo 'Configuring Datadog monitoring...'
+//                     // // Install Datadog Agent
+//                     // bat 'powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(\'https://s3.amazonaws.com/dd-agent/scripts/install_script_windows.ps1\'))"'
                     
-                    // // Configure Datadog Agent
-                    // bat 'echo api_key: ba893a72db4c75d13106acf4c995e7a3 > C:\\ProgramData\\Datadog\\datadog.yaml'
-                    // bat 'echo site: datadoghq.com >> C:\\ProgramData\\Datadog\\datadog.yaml'
+//                     // // Configure Datadog Agent
+//                     // bat 'echo api_key: ba893a72db4c75d13106acf4c995e7a3 > C:\\ProgramData\\Datadog\\datadog.yaml'
+//                     // bat 'echo site: datadoghq.com >> C:\\ProgramData\\Datadog\\datadog.yaml'
                     
-                    // // Restart Datadog Agent
-                    // bat 'net stop datadogagent && net start datadogagent'
+//                     // // Restart Datadog Agent
+//                     // bat 'net stop datadogagent && net start datadogagent'
                     
-                    // // Set up application-specific monitoring (example)
-                    // bat 'echo instances: > C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
-                    // bat 'echo   - name: your_app >> C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
-                    // bat 'echo     url: "http://localhost:8081" >> C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
+//                     // // Set up application-specific monitoring (example)
+//                     // bat 'echo instances: > C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
+//                     // bat 'echo   - name: your_app >> C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
+//                     // bat 'echo     url: "http://localhost:8081" >> C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
                     
-                    // // Restart Datadog Agent again to apply changes
-                    // bat 'net stop datadogagent && net start datadogagent'
-                    echo 'Checking if Datadog Agent is already installed...'
-            
-            // Check if Datadog Agent is installed and skip installation if true
-            def isInstalled = bat(script: 'if exist "C:\\Program Files\\Datadog\\Datadog Agent\\bin\\agent.exe" echo installed', returnStdout: true).trim()
-            if (isInstalled != 'installed') {
-                echo 'Installing Datadog Agent...'
-                bat 'powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(\'https://s3.amazonaws.com/dd-agent/scripts/install_script_windows.ps1\'))"'
-            } else {
-                echo 'Datadog Agent is already installed.'
-            }
-            
-            // Configure Datadog Agent
-            echo 'Configuring Datadog Agent...'
-            bat 'echo api_key: ba893a72db4c75d13106acf4c995e7a3 > C:\\ProgramData\\Datadog\\datadog.yaml'
-            bat 'echo site: datadoghq.com >> C:\\ProgramData\\Datadog\\datadog.yaml'
-            
-            // Restart Datadog Agent
-            bat 'net stop datadogagent && net start datadogagent'
-            
-            // Set up application-specific monitoring
-            bat 'echo instances: > C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
-            bat 'echo   - name: your_app >> C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
-            bat 'echo     url: "http://localhost:8081" >> C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
-            
-            // Restart Datadog Agent again to apply changes
-            bat 'net stop datadogagent && net start datadogagent'
-                }
-            }
-        }
+//                     // // Restart Datadog Agent again to apply changes
+//                     // bat 'net stop datadogagent && net start datadogagent'
+                    
+//                 }
+//             }
+//         }
+
+        stage('Configure Datadog Monitoring') {
+             steps {
+                 script {
+                     echo 'Configuring Datadog monitoring...'
+         
+                     // Ensure Datadog Agent is running and configured
+                     bat '"C:\\Program Files\\Datadog\\Datadog Agent\\bin\\agent.exe" status'
+         
+                     // Send a test event to Datadog using Datadog API
+                     bat """
+                         curl -X POST "https://api.datadoghq.com/api/v1/events" \
+                         -H "Content-Type: application/json" \
+                         -H "DD-API-KEY: ba893a72db4c75d13106acf4c995e7a3" \
+                         -d '{
+                             "title": "Test Deployment",
+                             "text": "Deployment of version  to production was successful.",
+                             "priority": "normal",
+                            
+                         }'
+                     """
+                 }
+    }
 
     }
-}
+    }}
+
