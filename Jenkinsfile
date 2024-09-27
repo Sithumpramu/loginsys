@@ -216,12 +216,7 @@ pipeline {
                          curl -X POST "https://api.datadoghq.com/api/v1/events" \
                          -H "Content-Type: application/json" \
                          -H "DD-API-KEY: ba893a72db4c75d13106acf4c995e7a3" \
-                         -d '{
-                             "title": "Test Deployment",
-                             "text": "Deployment of version  to production was successful.",
-                             "priority": "normal",
-                            
-                         }'
+
                      """
                  }
     }
