@@ -177,23 +177,30 @@ pipeline {
             }
         }
 
-stage('Setup Datadog Monitoring') {
-    steps {
-        script {
-            echo 'Sending metrics to Datadog via the Agent...'
-
-            // Send a custom metric to Datadog
-            bat """
-                echo "jenkins.build.success:1|c" | datadog-agent dogstatsd
-            """
-            
-            // Optionally, you can set up a service check for uptime
-            bat """
-                echo "my-app.uptime:1|g" | datadog-agent dogstatsd
-            """
+ stage('Configure Datadog Monitoring') {
+            steps {
+                script {
+                    echo 'Configuring Datadog monitoring...'
+                    // Install Datadog Agent
+                    bat 'powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(\'https://s3.amazonaws.com/dd-agent/scripts/install_script_windows.ps1\'))"'
+                    
+                    // Configure Datadog Agent
+                    bat 'echo api_key: ba893a72db4c75d13106acf4c995e7a3 > C:\\ProgramData\\Datadog\\datadog.yaml'
+                    bat 'echo site: datadoghq.com >> C:\\ProgramData\\Datadog\\datadog.yaml'
+                    
+                    // Restart Datadog Agent
+                    bat 'net stop datadogagent && net start datadogagent'
+                    
+                    // Set up application-specific monitoring (example)
+                    bat 'echo instances: > C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
+                    bat 'echo   - name: your_app >> C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
+                    bat 'echo     url: "http://localhost:8081" >> C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
+                    
+                    // Restart Datadog Agent again to apply changes
+                    bat 'net stop datadogagent && net start datadogagent'
+                }
+            }
         }
-    }
-}
 
     }
 }
