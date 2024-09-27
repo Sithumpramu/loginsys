@@ -177,22 +177,23 @@ pipeline {
             }
         }
 
-        stage('Setup Basic Datadog Monitoring') {
-            steps {
-                script {
-                    echo 'Sending metrics to Datadog via DogStatsD...'
-                    
-                    // Send build success metric to Datadog using DogStatsD
-                    bat '''
-                        echo "jenkins.build.success:1|c" | nc -u -w0 localhost 8125
-                    '''
-                    
-                    // Send a custom deployment metric
-                    bat '''
-                        echo "jenkins.deploy.success:1|c" | nc -u -w0 localhost 8125
-                    '''
-                }
-            }
+stage('Setup Datadog Monitoring') {
+    steps {
+        script {
+            echo 'Sending metrics to Datadog via the Agent...'
+
+            // Send a custom metric to Datadog
+            bat """
+                echo "jenkins.build.success:1|c" | datadog-agent dogstatsd
+            """
+            
+            // Optionally, you can set up a service check for uptime
+            bat """
+                echo "my-app.uptime:1|g" | datadog-agent dogstatsd
+            """
         }
+    }
+}
+
     }
 }
