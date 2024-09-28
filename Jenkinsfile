@@ -2,9 +2,6 @@
 
 // pipeline {
 //     agent any
-//     environment {
-//         DATADOG_API_KEY = credentials('ba893a72db4c75d13106acf4c995e7a3')
-//     }
 //     tools {
 //         nodejs 'node'
 //     }
@@ -20,8 +17,7 @@
                 
 //                 echo 'Pushing the Docker image to Docker Hub...'
 //                 bat 'docker push kmds/my-app:latest'
-
-//     }
+//             }
 //         }
 
 //         stage('Test') {
@@ -30,23 +26,18 @@
 //                 bat 'npm test'
 //             }
 //         }
-
- 
-
         
-//           stage('Codequality analysis') {
+//         stage('Codequality analysis') {
 //             steps {
-//               script {
-//                   scannerHome = tool 'SonarQube'
-//                   echo "${scannerHome}"
-
-//               }
-//               withSonarQubeEnv('SonarCloud') {
-//                 bat "C:/SonarQube/sonar-scanner-6.1.0.4477-windows-x64/bin/sonar-scanner -Dsonar.projectKey=Sithumpramu_loginsys -Dsonar.organization=sithumpramu -Dsonar.host.url=https://sonarcloud.io"
-
-//               }
+//                 script {
+//                     scannerHome = tool 'SonarQube'
+//                     echo "${scannerHome}"
+//                 }
+//                 withSonarQubeEnv('SonarCloud') {
+//                     bat "C:/SonarQube/sonar-scanner-6.1.0.4477-windows-x64/bin/sonar-scanner -Dsonar.projectKey=Sithumpramu_loginsys -Dsonar.organization=sithumpramu -Dsonar.host.url=https://sonarcloud.io"
+//                 }
 //             }
-//           }
+//         }
         
 //         stage('Deploy') {
 //             steps {
@@ -59,66 +50,76 @@
 //         }
 
 //         stage('Release') {
-//     steps {
-//         echo 'Releasing to Production...'
+//             steps {
+//                 echo 'Releasing to Production...'
+//                 bat '''
+//                     "C:\\Users\\user\\Downloads\\OctopusTools.9.0.0.win-x64\\octo.exe" create-release ^
+//                     --project "My Jenkins Deployment Project" ^
+//                     --releaseNumber 1.0.0 ^
+//                     --deployTo Development ^
+//                     --server https://loginkmds.octopus.app ^
+//                     --apiKey API-PZ73ENNRIGUN60LKRAEQOIHNY7WQ
+//                 '''
+//             }
+//         }
 
-    
-//         bat '''
-//             "C:\\Users\\user\\Downloads\\OctopusTools.9.0.0.win-x64\\octo.exe" create-release ^
-//             --project "My Jenkins Deployment Project" ^
-//             --releaseNumber 1.0.0 ^
-//             --deployTo Development ^
-//             --server https://loginkmds.octopus.app ^
-//             --apiKey API-PZ73ENNRIGUN60LKRAEQOIHNY7WQ
-//         '''
-        
-//     }
-// }
+// //  stage('Configure Datadog Monitoring') {
+// //             steps {
+// //                 script {
+// //                     // echo 'Configuring Datadog monitoring...'
+// //                     // // Install Datadog Agent
+// //                     // bat 'powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(\'https://s3.amazonaws.com/dd-agent/scripts/install_script_windows.ps1\'))"'
+                    
+// //                     // // Configure Datadog Agent
+// //                     // bat 'echo api_key: ba893a72db4c75d13106acf4c995e7a3 > C:\\ProgramData\\Datadog\\datadog.yaml'
+// //                     // bat 'echo site: datadoghq.com >> C:\\ProgramData\\Datadog\\datadog.yaml'
+                    
+// //                     // // Restart Datadog Agent
+// //                     // bat 'net stop datadogagent && net start datadogagent'
+                    
+// //                     // // Set up application-specific monitoring (example)
+// //                     // bat 'echo instances: > C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
+// //                     // bat 'echo   - name: your_app >> C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
+// //                     // bat 'echo     url: "http://localhost:8081" >> C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
+                    
+// //                     // // Restart Datadog Agent again to apply changes
+// //                     // bat 'net stop datadogagent && net start datadogagent'
+                    
+// //                 }
+// //             }
+// //         }
 
-//        stage('Setup Basic Datadog Monitoring') {
-//                    steps {
-//                        script {
-//                            // Send deployment event to Datadog
-//                            sh """
-//                                curl -X POST "https://api.datadoghq.com/api/v1/events" \
-//                                -H "Content-Type: application/json" \
-//                                -H "DD-API-KEY: ${DATADOG_API_KEY}" \
-//                                -d '{
-//                                    "title": "Deployment to Production",
-//                                    "text": "Version ${env.BUILD_NUMBER} deployed to production",
-//                                    "priority": "normal",
-//                                    "tags": ["environment:production", "version:${env.BUILD_NUMBER}"]
-//                                }'
-//                            """
-                           
-//                            // Set up a basic uptime monitor
-//                            sh """
-//                                curl -X POST "https://api.datadoghq.com/api/v1/monitor" \
-//                                -H "Content-Type: application/json" \
-//                                -H "DD-API-KEY: ${DATADOG_API_KEY}" \
-//                                -d '{
-//                                    "name": "Website Uptime",
-//                                    "type": "service check",
-//                                    "query": "\"http.can_connect\".over(\"url:http://your-website-url\").last(3).count_by_status()",
-//                                    "message": "Website is down! Please check immediately.",
-//                                    "tags": ["app:your-app-name", "env:production"],
-//                                    "options": {
-//                                        "notify_no_data": true,
-//                                        "no_data_timeframe": 10
-//                                    }
-//                                }'
-//                            """
-//                        }
-//                    }
-        
+//         stage('Configure Datadog Monitoring') {
+//              steps {
+//                  script {
+//                      echo 'Configuring Datadog monitoring...'
+         
+//                      // Ensure Datadog Agent is running and configured
+//                      bat '"C:\\Program Files\\Datadog\\Datadog Agent\\bin\\agent.exe" status'
+         
+//                      // Send a test event to Datadog using Datadog API
+//                      bat """
+//                          curl -X POST "https://api.datadoghq.com/api/v1/events" \
+//                          -H "Content-Type: application/json" \
+//                          -H "DD-API-KEY: ba893a72db4c75d13106acf4c995e7a3" \
+
+//                      """
+//                  }
 //     }
-// }
+
+//     }
+//     }}
+
+
+
+
 
 pipeline {
     agent any
     tools {
         nodejs 'node'
     }
+
 
     stages {
         stage('Build') {
@@ -177,50 +178,34 @@ pipeline {
             }
         }
 
-//  stage('Configure Datadog Monitoring') {
-//             steps {
-//                 script {
-//                     // echo 'Configuring Datadog monitoring...'
-//                     // // Install Datadog Agent
-//                     // bat 'powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(\'https://s3.amazonaws.com/dd-agent/scripts/install_script_windows.ps1\'))"'
-                    
-//                     // // Configure Datadog Agent
-//                     // bat 'echo api_key: ba893a72db4c75d13106acf4c995e7a3 > C:\\ProgramData\\Datadog\\datadog.yaml'
-//                     // bat 'echo site: datadoghq.com >> C:\\ProgramData\\Datadog\\datadog.yaml'
-                    
-//                     // // Restart Datadog Agent
-//                     // bat 'net stop datadogagent && net start datadogagent'
-                    
-//                     // // Set up application-specific monitoring (example)
-//                     // bat 'echo instances: > C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
-//                     // bat 'echo   - name: your_app >> C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
-//                     // bat 'echo     url: "http://localhost:8081" >> C:\\ProgramData\\Datadog\\conf.d\\your_app.d\\conf.yaml'
-                    
-//                     // // Restart Datadog Agent again to apply changes
-//                     // bat 'net stop datadogagent && net start datadogagent'
-                    
-//                 }
-//             }
-//         }
 
-        stage('Configure Datadog Monitoring') {
+        stage('Monitoring and alerting') {
              steps {
                  script {
-                     echo 'Configuring Datadog monitoring...'
+                    //  echo 'Configuring Datadog monitoring...'
          
-                     // Ensure Datadog Agent is running and configured
-                     bat '"C:\\Program Files\\Datadog\\Datadog Agent\\bin\\agent.exe" status'
+                    //  // Ensure Datadog Agent is running and configured
+                    //  bat '"C:\\Program Files\\Datadog\\Datadog Agent\\bin\\agent.exe" status'
          
-                     // Send a test event to Datadog using Datadog API
-                     bat """
-                         curl -X POST "https://api.datadoghq.com/api/v1/events" \
-                         -H "Content-Type: application/json" \
-                         -H "DD-API-KEY: ba893a72db4c75d13106acf4c995e7a3" \
+                    //  // Send a test event to Datadog using Datadog API
+                    //  bat """
+                    //      curl -X POST "https://api.datadoghq.com/api/v1/events" \
+                    //      -H "Content-Type: application/json" \
+                    //      -H "DD-API-KEY: ba893a72db4c75d13106acf4c995e7a3" \
 
-                     """
+                    //  """
+                    echo 'Configuring Datadog monitoring...'
+                    
+                    // Ensure Datadog Agent is running and configured
+                    bat '"C:\\Program Files\\Datadog\\Datadog Agent\\bin\\agent.exe" status'
+                    
+                    // Send a test event to Datadog using Datadog API
+                    bat 'curl -X POST "https://api.datadoghq.com/api/v1/events" -H "Content-Type: application/json" -H "DD-API-KEY: ba893a72db4c75d13106acf4c995e7a3" -d "{\\"title\\": \\"Jenkins Build Event\\", \\"text\\": \\"A new build has been initiated\\", \\"priority\\": \\"normal\\", \\"tags\\": [\\"jenkins\\", \\"build:%BUILD_NUMBER%\\"]}"'
                  }
     }
 
     }
     }}
+
+
 
