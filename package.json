@@ -21,7 +21,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test:unit": "jest --runInBand --testPathPattern='tests/unit/'",
-    "test": "react-scripts test --env=jsdom --testResultsProcessor=\"jest-junit\"",
+    "test": "react-app-rewired test --env=jsdom --coverage",
     "eject": "react-scripts eject"
   },
   "jest-junit": {
@@ -29,9 +29,10 @@
     "outputName": "junit.xml"
   },
   "jest": {
-  "testResultsProcessor": "jest-junit"
-},
-
+    "testResultsProcessor": "jest-junit",
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -54,6 +55,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "cypress": "^13.14.2",
     "jest": "^27.5.1",
-    "jest-junit": "^16.0.0"
+    "jest-junit": "^16.0.0",
+    "react-app-rewired": "^2.2.1"
   }
 }
