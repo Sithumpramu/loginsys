@@ -225,8 +225,14 @@ pipeline {
                 sh(
                     script: 'python test_login.py',
                     returnStatus: true,
-                    variable: 'test_result'
+            
                 )
+                               // Check the test result using $status
+                if ($status == 0) {
+                    echo "Test passed successfully!"
+                } else {
+                    echo "Test failed with exit code: $status"
+                }
             }
         }
 
