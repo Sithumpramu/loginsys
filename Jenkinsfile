@@ -217,24 +217,43 @@ pipeline {
             }
         }
 
-        stage('Unit Tests') {
-            steps {
-                echo 'Running unit tests...'
-                // bat 'npm run test:unit'
-                // sh 'python test_login.py'
-                sh(
-                    script: 'python test_login.py',
-                    returnStatus: true,
+        // stage('Unit Tests') {
+        //     steps {
+        //         echo 'Running unit tests...'
+        //         // bat 'npm run test:unit'
+        //         // sh 'python test_login.py'
+        //         sh(
+        //             script: 'python test_login.py',
+        //             returnStatus: true,
             
-                )
-                               // Check the test result using $status
-                if ($status == 0) {
-                    echo "Test passed successfully!"
-                } else {
-                    echo "Test failed with exit code: $status"
-                }
+        //         )
+        //                        // Check the test result using $status
+        //         if ($status == 0) {
+        //             echo "Test passed successfully!"
+        //         } else {
+        //             echo "Test failed with exit code: $status"
+        //         }
+        //     }
+        // }
+
+        stage('Unit Tests') {
+    steps {
+        echo 'Running unit tests...'
+        script {
+            def status = sh(
+                script: 'python test_login.py',
+                returnStatus: true
+            )
+            
+            // Check the test result using status
+            if (status == 0) {
+                echo "Test passed successfully!"
+            } else {
+                echo "Test failed with exit code: ${status}"
             }
         }
+    }
+}
 
 
         
