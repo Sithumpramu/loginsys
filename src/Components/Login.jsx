@@ -68,6 +68,7 @@
 import React, { useState } from "react";
 import Input from "./Inputs";
 import { Link } from 'react-router-dom';
+import { loginUser } from "../Utils/Firebase";
 
 const Login = ({ onLogin }) => {
     const [contact, setContact] = useState({
