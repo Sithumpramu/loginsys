@@ -20,8 +20,7 @@
     "build": "react-scripts build",
     "test": "jest --passWithNoTests",
     "eject": "react-scripts eject",
-    "test:unit": "jest --runInBand --testPathPattern=unit",
-    "test:integration": "jest --runInBand --testPathPattern=integration"
+    "test:unit": "jest --runInBand --testPathPattern='tests/unit/'"
   },
   "eslintConfig": {
     "extends": [
