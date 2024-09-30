@@ -217,89 +217,14 @@ pipeline {
             }
         }
 
-        // stage('Unit Tests') {
-        //     steps {
-        //         echo 'Running unit tests...'
-        //         // bat 'npm run test:unit'
-        //         // sh 'python test_login.py'
-        //         sh(
-        //             script: 'python test_login.py',
-        //             returnStatus: true,
-            
-        //         )
-        //                        // Check the test result using $status
-        //         if ($status == 0) {
-        //             echo "Test passed successfully!"
-        //         } else {
-        //             echo "Test failed with exit code: $status"
-        //         }
-        //     }
-        // }
-
-              stage('Run Tests') {
+        stage('Unit Tests') {
             steps {
-                script {
-                    try {
-                        // Checkout the code
-                        checkout scm
-
-                        // Determine the operating system
-                        def isUnix = isUnix()
-
-                        // Verify Python and pip versions
-                        if (isUnix) {
-                            sh 'python --version'
-                            sh 'pip --version'
-                        } else {
-                            bat 'python --version'
-                            bat 'pip --version'
-                        }
-
-                        // Install required packages
-                        if (isUnix) {
-                            sh 'pip install selenium webdriver_manager'
-                        } else {
-                            bat 'pip install selenium webdriver_manager'
-                        }
-
-                        // List contents of the current directory
-                        if (isUnix) {
-                            sh 'ls -la'
-                        } else {
-                            bat 'dir'
-                        }
-
-                        // Run the test script
-                        def status
-                        if (isUnix) {
-                            status = sh(script: 'python logintest.py', returnStatus: true)
-                        } else {
-                            status = bat(script: 'python logintest.py', returnStatus: true)
-                        }
-                        
-                        // Check the test result using status
-                        if (status == 0) {
-                            echo "Test passed successfully!"
-                        } else {
-                            error "Test failed with exit code: ${status}"
-                        }
-
-                        // Add your build steps here
-                        echo 'Building..'
-                        // Add conditional build commands here
-
-                        // Add your deployment steps here
-                        echo 'Deploying....'
-                        // Add conditional deployment commands here
-
-                    } catch (Exception e) {
-                        currentBuild.result = 'FAILURE'
-                        error "An error occurred: ${e.message}"
-                    }
-                }
-            }}
-
-         
+                echo 'Running unit tests...'
+                // // bat 'npm run test:unit'
+                // sh 'python test_login.py', returnStatus: true, variable: 'test_result'
+                sh 'npm test -- --coverage'
+            }
+        }
 
 
         
@@ -353,6 +278,20 @@ pipeline {
     }
 
     }
+
+    
+    post {
+        always {
+            junit 'coverage/junit.xml'
+            publishHTML target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: false,
+                keepAll: true,
+                reportDir: 'coverage',
+                reportFiles: 'index.html',
+                reportName: 'Coverage Report'
+            ]
+        }}
     }}
 
 
