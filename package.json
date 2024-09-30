@@ -27,6 +27,7 @@
     "test:unit": "jest --runInBand --testPathPattern='tests/unit/'",
     "test": "react-app-rewired test --env=jsdom --coverage",
     "eject": "react-scripts eject"
+    
   },
   "jest-junit": {
     "outputDirectory": "coverage",
@@ -36,6 +37,7 @@
     "testResultsProcessor": "jest-junit",
     "collectCoverage": true,
     "coverageDirectory": "./coverage"
+    
   },
   "eslintConfig": {
     "extends": [
