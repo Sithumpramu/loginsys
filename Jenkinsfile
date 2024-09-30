@@ -196,35 +196,35 @@
 
 
 
-pipeline {
-    agent any
-    tools {
-        nodejs 'node'
-    }
+// pipeline {
+//     agent any
+//     tools {
+//         nodejs 'node'
+//     }
 
 
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Logging into Docker Hub...'
-                bat 'docker login -u kmds -p dckr_pat_LqTQehUbTG9LVrzIjSeXrVQUVh4'
+//     stages {
+//         stage('Build') {
+//             steps {
+//                 echo 'Logging into Docker Hub...'
+//                 bat 'docker login -u kmds -p dckr_pat_LqTQehUbTG9LVrzIjSeXrVQUVh4'
                 
-                echo 'Building the Docker image...'
-                bat 'docker build -t kmds/my-app:latest .'
+//                 echo 'Building the Docker image...'
+//                 bat 'docker build -t kmds/my-app:latest .'
                 
-                echo 'Pushing the Docker image to Docker Hub...'
-                bat 'docker push kmds/my-app:latest'
-            }
-        }
+//                 echo 'Pushing the Docker image to Docker Hub...'
+//                 bat 'docker push kmds/my-app:latest'
+//             }
+//         }
 
-        stage('Unit Tests') {
-            steps {
-                echo 'Running unit tests...'
-                // // bat 'npm run test:unit'
-                // sh 'python test_login.py', returnStatus: true, variable: 'test_result'
-                bat 'npm run test'
-            }
-        }
+//         stage('Unit Tests') {
+//             steps {
+//                 echo 'Running unit tests...'
+//                 // // bat 'npm run test:unit'
+//                 // sh 'python test_login.py', returnStatus: true, variable: 'test_result'
+//                 bat 'npm run test'
+//             }
+//         }
 
 
         
@@ -297,4 +297,51 @@ pipeline {
     // }
 
 
-    }}
+pipeline {
+    agent any
+
+    tools {
+        nodejs 'Node 14' // Make sure to have NodeJS plugin installed and this version configured
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                bat 'npm install'
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                echo 'Running unit tests...'
+                bat 'npm run test'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                bat 'npm run build'
+            }
+        }
+    }
+
+    post {
+        always {
+            junit 'coverage/junit.xml'
+            publishHTML target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: false,
+                keepAll: true,
+                reportDir: 'coverage',
+                reportFiles: 'index.html',
+                reportName: 'Coverage Report'
+            ]
+        }
+    }
+}
