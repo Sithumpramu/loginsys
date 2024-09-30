@@ -222,7 +222,7 @@ pipeline {
                 echo 'Running unit tests...'
                 // // bat 'npm run test:unit'
                 // sh 'python test_login.py', returnStatus: true, variable: 'test_result'
-                bat 'npm run test -- --coverage'
+                bat 'npm run test'
             }
         }
 
