@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
 def test_login():
-    driver = webdriver.Chrome(executable_path=r'C:\Users\user\Downloads\chrome-win64\chrome-win64\chrome.exe')
+    driver = webdriver.Chrome(executable_path='C:\Users\user\Downloads\chrome-win64\chrome-win64\chrome.exe')
     driver.get("http://localhost:3000")
 
     # Find the email and password fields
