@@ -47,7 +47,7 @@
     "setupFiles": [
       "D:/Deakin/loginsys/src/setupTests.js"
     ],
-    "testEnvironment": "jest-environment-jsdom-sixteen"
+      "testEnvironment": "jest-environment-jsdom-sixteen"
   },
   "eslintConfig": {
     "extends": [
