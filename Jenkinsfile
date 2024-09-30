@@ -236,24 +236,52 @@ pipeline {
         //     }
         // }
 
-    stage('Unit Tests') {
-    steps {
-        echo 'Running unit tests...'
-        script {
-            def status = sh(
-                script: 'python test_login.py',
-                returnStatus: true
-            )
-            
-            // Check the test result using status
-            if (status == 0) {
-                echo "Test passed successfully!"
-            } else {
-                echo "Test failed with exit code: ${status}"
-            }
-        }
-    }
-}
+                stage('Run Tests') {
+            steps {
+                script {
+                    try {
+                        // Checkout the code
+                        checkout scm
+
+                        // Verify Python and pip versions
+                        sh 'python --version'
+                        sh 'pip --version'
+
+                        // Install required packages
+                        sh 'pip install selenium webdriver_manager'
+
+                        // List contents of the current directory
+                        sh 'ls -la'
+
+                        // Run the test script
+                        def status = sh(
+                            script: 'python logintest.py',
+                            returnStatus: true
+                        )
+                        
+                        // Check the test result using status
+                        if (status == 0) {
+                            echo "Test passed successfully!"
+                        } else {
+                            error "Test failed with exit code: ${status}"
+                        }
+
+                        // Add your build steps here
+                        echo 'Building..'
+                        // sh 'your-build-command-here'
+
+                        // Add your deployment steps here
+                        echo 'Deploying....'
+                        // sh 'your-deployment-command-here'
+
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        error "An error occurred: ${e.message}"
+                    }
+                }
+            }}
+
+         
 
 
         
