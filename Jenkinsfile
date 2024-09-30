@@ -301,7 +301,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'Node 14' // Make sure to have NodeJS plugin installed and this version configured
+        nodejs 'node' // Make sure to have NodeJS plugin installed and this version configured
     }
 
     stages {
