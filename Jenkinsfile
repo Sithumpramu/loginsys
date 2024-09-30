@@ -220,9 +220,8 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 echo 'Running unit tests...'
-                // // bat 'npm run test:unit'
-                // sh 'python test_login.py', returnStatus: true, variable: 'test_result'
-                bat 'npm run test -- --coverage'
+                bat 'npm run test'
+                // bat 'npm run test -- --coverage'
             }
         }
 
