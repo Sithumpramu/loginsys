@@ -236,28 +236,46 @@ pipeline {
         //     }
         // }
 
-                stage('Run Tests') {
+              stage('Run Tests') {
             steps {
                 script {
                     try {
                         // Checkout the code
                         checkout scm
 
+                        // Determine the operating system
+                        def isUnix = isUnix()
+
                         // Verify Python and pip versions
-                        sh 'python --version'
-                        sh 'pip --version'
+                        if (isUnix) {
+                            sh 'python --version'
+                            sh 'pip --version'
+                        } else {
+                            bat 'python --version'
+                            bat 'pip --version'
+                        }
 
                         // Install required packages
-                        sh 'pip install selenium webdriver_manager'
+                        if (isUnix) {
+                            sh 'pip install selenium webdriver_manager'
+                        } else {
+                            bat 'pip install selenium webdriver_manager'
+                        }
 
                         // List contents of the current directory
-                        sh 'ls -la'
+                        if (isUnix) {
+                            sh 'ls -la'
+                        } else {
+                            bat 'dir'
+                        }
 
                         // Run the test script
-                        def status = sh(
-                            script: 'python logintest.py',
-                            returnStatus: true
-                        )
+                        def status
+                        if (isUnix) {
+                            status = sh(script: 'python logintest.py', returnStatus: true)
+                        } else {
+                            status = bat(script: 'python logintest.py', returnStatus: true)
+                        }
                         
                         // Check the test result using status
                         if (status == 0) {
@@ -268,11 +286,11 @@ pipeline {
 
                         // Add your build steps here
                         echo 'Building..'
-                        // sh 'your-build-command-here'
+                        // Add conditional build commands here
 
                         // Add your deployment steps here
                         echo 'Deploying....'
-                        // sh 'your-deployment-command-here'
+                        // Add conditional deployment commands here
 
                     } catch (Exception e) {
                         currentBuild.result = 'FAILURE'
