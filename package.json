@@ -25,7 +25,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test:unit": "jest --runInBand --testPathPattern='tests/unit/'",
-    "test": "react-app-rewired test --env=jsdom --coverage",
+    "test": "npm run test",
     "eject": "react-scripts eject"
     
   },
