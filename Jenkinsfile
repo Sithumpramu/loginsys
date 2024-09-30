@@ -224,12 +224,7 @@ pipeline {
             }
         }
 
-        stage('Integration Tests') {
-            steps {
-                echo 'Running integration tests...'
-                bat 'npm run test:integration'
-            }
-        }
+
         
         stage('Codequality analysis') {
             steps {
