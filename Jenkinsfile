@@ -217,30 +217,14 @@ pipeline {
             }
         }
 
-        // stage('Unit Tests') {
-        //     steps {
-        //         echo 'Running unit tests...'
-        //         // bat 'npm run test:unit'
-        //         // bat 'python test_login.py'
-        //         bat 'python test_login.py', returnStatus: true, variable: 'test_result'
-        //         if ($test_result == 0) {
-        //             echo "Test passed successfully!"
-        //         } else {
-        //             echo "Test failed with exit code: $test_result"
-        //         }
-        //     }
-        // }
-        stage('Test') {
+        stage('Unit Tests') {
             steps {
+                echo 'Running unit tests...'
+                // bat 'npm run test:unit'
                 bat 'python test_login.py', returnStatus: true, variable: 'test_result'
-
-                if ($test_result == 0) {
-                    echo "Test passed successfully!"
-                } else {
-                    echo "Test failed with exit code: $test_result"
-                }
             }
         }
+
 
         
         stage('Codequality analysis') {
