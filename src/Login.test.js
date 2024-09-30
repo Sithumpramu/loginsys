@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import Login from './src/Components/Login';
+import Login from './Components/Login';
 
 test('Login form submits with email and password', () => {
   const mockLogin = jest.fn();

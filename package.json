@@ -34,7 +34,11 @@
   "jest": {
     "testResultsProcessor": "jest-junit",
     "collectCoverage": true,
-    "coverageDirectory": "./coverage"
+    "coverageDirectory": "./coverage",
+    "testMatch": [
+      "**/__tests__/**/*.[jt]s?(x)",
+      "**/?(*.)+(spec|test).[tj]s?(x)"
+    ]
   },
   "eslintConfig": {
     "extends": [
