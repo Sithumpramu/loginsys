@@ -221,7 +221,7 @@ pipeline {
             steps {
                 echo 'Running unit tests...'
                 // bat 'npm run test:unit'
-                bat 'python test_login.py', returnStatus: true, variable: 'test_result'
+                sh 'python test_login.py', returnStatus: true, variable: 'test_result'
             }
         }
 
