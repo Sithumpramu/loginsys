@@ -61,7 +61,7 @@ pipeline {
                     --releaseNumber 1.0.0 ^
                     --deployTo Development ^
                     --server https://loginkmds.octopus.app ^
-                    --apiKey API-PZ73ENNRIGUN60LKRAEQOIHNY7WQ
+                    --apiKey API-HTKL6ZGPGFOYUMCVDPB7A4YIE9VGNTMY
                 '''
             }
         }
