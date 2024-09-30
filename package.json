@@ -19,7 +19,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest --passWithNoTests",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test:unit": "jest --runInBand --testPathPattern=unit",
+    "test:integration": "jest --runInBand --testPathPattern=integration"
   },
   "eslintConfig": {
     "extends": [
