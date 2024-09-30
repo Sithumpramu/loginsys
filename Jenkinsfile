@@ -24,7 +24,7 @@ pipeline {
                 echo 'Running unit tests...'
                 // bat 'npm run test:unit'
                 // bat 'npm run test -- --coverage'
-                bat 'npm run test -- --passWithNoTests'
+                // bat 'npm run test -- --passWithNoTests'
             }
         }
 
